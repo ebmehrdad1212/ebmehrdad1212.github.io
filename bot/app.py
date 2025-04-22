@@ -24,7 +24,7 @@ def start_bot():
             current_hour = datetime.now().hour
             if current_hour in config['peak_hours']:
                 asyncio.run(run_bot())
-            time.sleep(60)  # هر دقیقه چک کن
+            time.sleep(60)
     except Exception as e:
         log_messages.append(f"خطا در اجرای بات: {str(e)}")
     finally:

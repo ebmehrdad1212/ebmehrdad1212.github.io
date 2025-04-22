@@ -1,9 +1,6 @@
 {
-  "api_id": 22861301,
-  "api_hash": "6a802ad89ff82af904be50cfb88de6b7",
   "telegram_channel_id": "@IranTechn",
   "source_channel_usernames": ["@Digiato", "@RoidBest", "@science", "@irancurrency"],
-  "gemini_api_key": "AIzaSyD52-_LipH3K_VU7f8VtLBTbd5l9msGkXY",
   "session_file": "session.txt",
   "last_message_ids_file": "last_message_ids.json",
   "posted_content_file": "posted_content.json",

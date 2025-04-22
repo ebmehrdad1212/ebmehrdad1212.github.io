@@ -17,13 +17,9 @@ import re
 from difflib import SequenceMatcher
 import nest_asyncio
 
-# لیست برای ذخیره لاگ‌ها
 log_messages = []
-
-# اعمال nest_asyncio برای حلقه‌های asyncio
 nest_asyncio.apply()
 
-# کدهای رنگی برای چاپ زیبا
 class Colors:
     GREEN = '\033[92m'
     YELLOW = '\033[93m'
@@ -32,7 +28,6 @@ class Colors:
     BOLD = '\033[1m'
     RESET = '\033[0m'
 
-# تابع چاپ زیبا
 def pretty_print(message, type="info", details=None):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     prefix = f"{Colors.CYAN}[{timestamp}]{Colors.RESET}"
@@ -56,10 +51,8 @@ def pretty_print(message, type="info", details=None):
         log_messages.append(detail_output)
         logging.info(f"جزئیات: {details}")
 
-# مسیر پایه
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# بارگذاری تنظیمات
 def load_config():
     pretty_print("بارگذاری تنظیمات...", "info")
     config_file = os.path.join(BASE_DIR, "config.json")
@@ -69,13 +62,15 @@ def load_config():
     try:
         with open(config_file, "r", encoding="utf-8") as f:
             config = json.load(f)
+        config['api_id'] = int(os.getenv('API_ID', '0'))
+        config['api_hash'] = os.getenv('API_HASH', '')
+        config['gemini_api_key'] = os.getenv('GEMINI_API_KEY', '')
         pretty_print("تنظیمات بارگذاری شد.", "success")
         return config
     except Exception as e:
         pretty_print("خطا در بارگذاری تنظیمات.", "error", str(e))
         raise
 
-# تنظیمات لاگ
 def setup_logging(log_file):
     logging.basicConfig(
         level=logging.INFO,
@@ -87,7 +82,6 @@ def setup_logging(log_file):
     )
     pretty_print("تنظیمات لاگ فعال شد.", "success")
 
-# بررسی و ایجاد فایل‌های لازم
 def ensure_files(config):
     pretty_print("بررسی فایل‌ها...", "info")
     os.makedirs(BASE_DIR, exist_ok=True)
@@ -339,7 +333,6 @@ async def send_to_telegram(client, target_channel, caption, media_path=None):
         if media_path and os.path.exists(media_path):
             os.remove(media_path)
 
-# کلاس اسکریپر
 class TelegramScraper:
     def __init__(self, client, source_channels, target_channel, session, config):
         self.client = client
@@ -418,7 +411,6 @@ async def run_scraping_with_limit(scraper, max_concurrent_tasks=3):
 
     await asyncio.gather(*(scrape_with_limit(channel) for channel in scraper.source_channels))
 
-# حلقه اصلی
 async def run_bot():
     global config
     config = load_config()
