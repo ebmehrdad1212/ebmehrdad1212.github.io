@@ -1,40 +1,44 @@
-name: Run Telegram Bot
+name: اجرای بات تلگرام
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # هر 30 دقیقه
-  workflow_dispatch:
+    - cron: '*/30 * * * *' # هر 30 دقیقه اجرا می‌شه
+  workflow_dispatch: # امکان اجرای دستی از GitHub
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: کلون کردن مخزن
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: نصب پایتون
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
-    - name: Install dependencies
+    - name: نصب وابستگی‌ها
       run: |
         python -m pip install --upgrade pip
         pip install -r bot/requirements.txt
 
-    - name: Run bot
+    - name: اجرای بات
+      env:
+        API_ID: 22861301
+        API_HASH: 6a802ad89ff82af904be50cfb88de6b7
+        GEMINI_API_KEY: AIzaSyD52-_LipH3K_VU7f8VtLBTbd5l9msGkXY
       run: |
         python bot/app.py &
         sleep 300 # اجرا به مدت 5 دقیقه
         pkill -f "python bot/app.py"
 
-    - name: Commit changes
+    - name: کامیت تغییرات
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
         git add bot/*.json bot/*.txt bot/*.log
-        git commit -m "Update bot files" || echo "No changes to commit"
+        git commit -m "به‌روزرسانی فایل‌های بات" || echo "بدون تغییر برای کامیت"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
