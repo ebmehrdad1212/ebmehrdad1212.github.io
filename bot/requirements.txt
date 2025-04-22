@@ -1,6 +1,0 @@
-telethon==1.36.0
-aiohttp==3.10.5
-pillow==10.4.0
-pendulum==3.0.0
-nest_asyncio==1.6.0
-flask==3.0.3
