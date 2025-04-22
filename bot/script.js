@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مانیتور بات تلگرام</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script>
+<script>
         function fetchLogs() {
             fetch('/logs')
                 .then(response => response.json())
@@ -35,18 +28,3 @@
                 .then(data => alert(data.status));
         }
     </script>
-</head>
-<body>
-    <div class="container">
-        <h1>مانیتور بات تلگرام</h1>
-        <div class="controls">
-            <button onclick="startBot()">شروع بات</button>
-            <button onclick="stopBot()">توقف بات</button>
-        </div>
-        <div class="log-box">
-            <h2>لاگ‌ها</h2>
-            <div class="logs" id="logs"></div>
-        </div>
-    </div>
-</body>
-</html>
